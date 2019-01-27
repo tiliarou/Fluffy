@@ -1,22 +1,26 @@
 # Fluffy
-![intro](intro.png)
+![intro](intro4.png)
 
-### <b><a href="https://github.com/fourminute/Fluffy/releases/tag/v1.5.1">Latest Release v1.5.1</a></b>
+### <b><a href="https://github.com/fourminute/Fluffy/releases/tag/v2.3">Latest Release v2.3.3</a></b>
 ### <b><a href="https://github.com/fourminute/Fluffy/blob/master/Tinfoil.nro">Download Recommended TinFoil.nro</a></b>
 
 ## Features
-* Display current install rate in MB/s.
+* Support for <b>XorTroll/Goldleaf</b> and <b>Adubbz/Tinfoil</b>
+* USB and Network Install, display transfer rate in MB/s and progress percentage.
+* USB and Network Install, display current NSP being installed.
+* Goldleaf: Display current NCA being installed.
+* Goldleaf: Display current NCA queue. 
 * Transfer modes between "Normal" and "Safe".
 * Smart User-Interface, switches between Tkinter and PyQt depending on modules installed. (<b>v1.4.1 and below only</b>)
 * Support for UI scaling on 4K, 1080P, and 720P displays.
 * Show current NSP being installed.
 * Individual NSP selection (suggest by: <b>Shadowhand</b>, thanks!).
-* Progress bar.
+* Tasty donut.
 * Switch connected indicator.
 * 5.x USB Fix (Thanks to <a href="https://github.com/satelliteseeker">satelliteseeker</a>)
 
-# Screenshot (PyQt version)
-![screenshot](screenshot1dot5b.PNG)
+# Screenshot
+![screenshot](https://github.com/fourminute/Fluffy/blob/master/screenshotv231linux.png?raw=true)
 
 
 # Instructions For Use
@@ -29,12 +33,35 @@
 * Done!
 
 ## Install Python
-* Download and Install Python 3 from https://www.python.org/downloads/. <b>Ensure no previous version of Python is installed and do not use the 64-bit version of Python 3. This may cause an error "PyUSB not found".</b>
+* Download and Install Python 3 from https://www.python.org/downloads/. Select the "PATH" option during install. <b>Ensure no previous version of Python is installed and do not use the 64-bit version of Python 3. This may cause an error "PyUSB not found".</b>
 
-## Install PyUSB, PyQt5 and QDarkStyle
-* Open Terminal/Command-line/CMD
-* Run "pip3 install qdarkstyle" and "pip3 install pyqt5" and "pip3 install pyusb"
-* <i>MacOS users must also run "brew install libusb". For more info on brew, head to https://brew.sh/.</i>
+## Install PyUSB, LibUSB, PyQt5
+* Open Terminal/Command-line/CMD and run the following:
+* pip3 install pyqt5 
+* pip3 install pyusb
+* pip3 install libusb
+* pip3 install libusb1
+* pip3 install qdarkstyle
+
+## Additional Windows Instructions
+Some users may receive the error "USB.Core No Backend Available". If you do, download this .DLL file https://github.com/fourminute/Fluffy/blob/master/libusb-1.0.dll and place it in the same directory as *Fluffy.pyw*.
+
+If you still receive this error, you can try installing LibUSB: https://github.com/fourminute/Fluffy/blob/master/libusb-win32-devel-filter-1.2.6.0.exe.
+
+## Additional Linux instructions
+### Switch Rules.d Config
+By default, Linux imposes restrictions on USB devices. Without setting a <b>rule</b> for the Switch, Fluffy won't be able to communicate.
+* Right-click this link and click "Save link as..." https://raw.githubusercontent.com/fourminute/Fluffy/master/linux/80-fluffy-switch.rules
+* Save the file to your HOME directory.
+* Open terminal and type "ls -l", do you see the file? If not make sure you saved it in the correct location.
+* In terminal enter "sudo mv 80-fluffy-switch.rules /etc/udev/rules.d/"
+* Restart your computer
+
+### " Error: Permission Denied"
+If running Fluffy results in "Permission Denied" error. You may need to set Fluffy.pyw as executable. Run the following command: "sudo chmod +x /path/to/fluffy.pyw"
+
+## Additional MacOS instructions
+* brew install libusb <i>(For more info on brew, head to https://brew.sh/)</i>
 
 ## Install TinFoil on your Switch
 * <b>These steps apply for all custom firmware. This includes but not limited to: Kosmos, ReINX, SXOS, etc.</b>
@@ -45,19 +72,32 @@
 Complete beginner? No problem. 
 * <b>First follow the installation steps above. Done? Let's continue!</b>
 * On your Switch running Custom Firmware open TinFoil > Title Management > USB Install NSP
-* Double-click on Fluffy.pyw to start it
-* Click "Select NSPs" and select as many NSPs as you want to install. <b>It is generally recommended to only install 5 or less NSPs at once, installing more NSPs at once may result in unknown issues.</b>
-* If "Switch Detected!" is visible. Click "Send Header".
+* Double-click on Fluffy.pyw to start it (<b>Linux users: Open Terminal and type "python3 fluffy.pyw".</b>)
+* Click "Select NSPs" and select as many NSPs as you want to install.
+* If "Switch Detected!" is visible. Click "Begin Transfer".
 * On your Switch, select and install the NSPs.
 
 ## Troubleshooting Tips
+<b>Why do I keep getting the error: "USBCore No Backend Available"?</b>
+
+Answer: This can be caused by 1-2 things.
+
+1) Not all USB type C cables will work with the Switch. If your Switch connects then frequently disconnects, then reconnects again, etc. Or if you receive this error, it's highly likely you will need a newer USB type C cable. Yes, there are differences despite being visually similar.
+
+2) LibUSB wasn't found. Install it with "pip3 install libusb" and "pip3 install libusb1". Also follow the above steps labeled "Additional Windows Instructions".
+
+
+<b>Why does network install fail?</b>
+
+Answer: Network install is a hit or miss depending on your setup. Try forwarding port 2000 in your router and disabling your firewall. Ensure your Switch and PC are on the same network.
+
 <b>PyUSB Not Found and I've followed all the steps!</b>
 
-Answer: Ensure no previous versions of Python are installed. If necessary, uninstall them. For example, if you have Python 3.6.6 and Python 3.7.2 installed at the same time Fluffy may throw this error. Using a 64-bit version of Python 3 can also throw this error.
+Answer: **Fluffy only works with Python 3 32-bit version.** Also be ensure no previous versions of Python are installed. If necessary, uninstall them. For example, if you have Python 3.6.6 and Python 3.7.2 installed at the same time Fluffy may throw this error.
 
 <b>What kind of cable does the Switch use?</b>
 
-Answer: USB type C cable.
+Answer: USB type C cable. Though, not all USB type C cables are the same. Some will not be compatible with the Switch.
 
 <b>Does Fluffy work on MacOS and Linux?</b>
 
@@ -70,6 +110,10 @@ Answer: All of them will work the same. That is up to you.
 <b>Why does my install keeps hanging and/or crashing?</b>
 
 Answer: Switch Transfer Mode to "Safe".
+
+<b>Why do I have unsufficient permission error (usb)(linux)? (credit: YoyPa)</b>
+
+Answer: You need to make a <a href=https://github.com/fourminute/Fluffy/blob/master/linux/80-fluffy-switch.rules>udev rule</a> to modify the switch usb device owner or group in /etc/udev/rules.d/
 
 <b>Still having problems? Consider making a bug report on this GitHub page to request assistance.</b>
 
